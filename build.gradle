@@ -1,0 +1,50 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '4.1.0'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.metacoding'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+	implementation 'org.springframework.boot:spring-boot-starter-mustache'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// 입력값 검증(Bean Validation) — 7차시부터 사용
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// 비밀번호 해시(BCrypt)만 단독으로 쓴다 — 시큐리티 필터 체인은 사용하지 않는다 (8차시)
+	implementation 'org.springframework.security:spring-security-crypto'
+	// JWT 발급·검증 (8차시)
+	implementation 'com.auth0:java-jwt:4.4.0'
+	// AOP(@Aspect·@Around) — 9차시부터 사용. 스프링 부트 4의 AOP 스타터 이름은 -aspectj 다
+	implementation 'org.springframework.boot:spring-boot-starter-aspectj'
+	// API 명세 자동 문서화(Swagger UI) — 이 차시에서 추가하는 의존성이다. 3.x부터 스프링 부트 4를 지원한다
+	// (2.8.x는 Boot 3 전용 — 버전을 잘못 고르면 서버가 뜨지 않는다)
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.0'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	// 스프링 부트 4부터 /h2-console 화면은 별도 모듈이다
+	runtimeOnly 'org.springframework.boot:spring-boot-h2console'
+	// JPA 테스트(@DataJpaTest)를 위한 테스트 스타터 — 스프링 부트 4부터 기술별 테스트 스타터가 분리됐다
+	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
+	// 웹 슬라이스 테스트(@WebMvcTest)용 스타터 — 6차시부터 사용
+	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
