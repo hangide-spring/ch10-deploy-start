@@ -52,11 +52,4 @@ public class GlobalExceptionHandler {
         log.error("500 서버 오류 : {}", e.getMessage());
         return ResponseEntity.status(500).body(Resp.fail(500, e.getMessage()));
     }
-
-    // 최종 안전망 — 미처 예상 못 한 예외(진짜 버그)는 전부 여기서 500으로 받는다
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> exUnknown(Exception e) {
-        log.error("알 수 없는 오류", e); // 스택트레이스는 로그로만 — 클라이언트에 노출하지 않는다
-        return ResponseEntity.status(500).body(Resp.fail(500, "관리자에게 문의해 주세요"));
-    }
 }
