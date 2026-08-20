@@ -29,12 +29,6 @@ public class JwtAuthFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
 
-        // 조회(GET)는 로그인 없이 공개다 — 등록·수정·삭제만 보호한다
-        if ("GET".equals(request.getMethod())) {
-            chain.doFilter(req, resp);
-            return;
-        }
-
         System.out.println("JWT 필터 동작 → " + request.getMethod() + " " + request.getRequestURI());
 
         // 필터 안의 예외는 @RestControllerAdvice가 못 잡는다(DispatcherServlet 앞이다)

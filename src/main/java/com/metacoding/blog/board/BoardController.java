@@ -1,7 +1,5 @@
 package com.metacoding.blog.board;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,19 +23,19 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/boards")
-    public ResponseEntity<Resp<List<BoardResponse>>> list() {
+    public ResponseEntity<?> list() {
         System.out.println("GET /boards 요청 → 목록 JSON 응답");
         return ResponseEntity.ok(Resp.ok(boardService.findAll()));
     }
 
     @GetMapping("/boards/{id}")
-    public ResponseEntity<Resp<BoardResponse>> detail(@PathVariable("id") int id) {
+    public ResponseEntity<?> detail(@PathVariable("id") int id) {
         System.out.println("GET /boards/" + id + " 요청 → 상세 JSON 응답");
         return ResponseEntity.ok(Resp.ok(boardService.findById(id)));
     }
 
     @PostMapping("/boards")
-    public ResponseEntity<Resp<BoardResponse>> save(@Valid @RequestBody BoardRequest request, HttpServletRequest req) {
+    public ResponseEntity<?> save(@Valid @RequestBody BoardRequest request, HttpServletRequest req) {
         // 필터가 검증한 토큰에서 꺼내 전달해 준 사용자 — 여기 도달했다는 것은 인증이 통과됐다는 뜻이다
         Integer userId = (Integer) req.getAttribute("userId");
         System.out.println("POST /boards 요청 → title: " + request.title() + ", userId: " + userId);
@@ -45,7 +43,7 @@ public class BoardController {
     }
 
     @PutMapping("/boards/{id}")
-    public ResponseEntity<Resp<BoardResponse>> update(@PathVariable("id") int id, @Valid @RequestBody BoardRequest request,
+    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody BoardRequest request,
             HttpServletRequest req) {
         Integer userId = (Integer) req.getAttribute("userId");
         System.out.println("PUT /boards/" + id + " 요청 → userId: " + userId);
@@ -53,7 +51,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/boards/{id}")
-    public ResponseEntity<Resp<Void>> delete(@PathVariable("id") int id, HttpServletRequest req) {
+    public ResponseEntity<?> delete(@PathVariable("id") int id, HttpServletRequest req) {
         Integer userId = (Integer) req.getAttribute("userId");
         System.out.println("DELETE /boards/" + id + " 요청 → userId: " + userId);
         boardService.delete(id, userId);

@@ -8,7 +8,7 @@ public record BoardResponse(Integer id, String title, String content, String wri
 
     // 변환의 자리 ② — 엔티티를 응답 DTO로 감싼다
     public static BoardResponse from(Board board) {
-        String writer = board.getUser() == null ? "익명" : board.getUser().getUsername();
-        return new BoardResponse(board.getId(), board.getTitle(), board.getContent(), writer, board.getCreatedAt());
+        return new BoardResponse(board.getId(), board.getTitle(), board.getContent(), board.getUser().getUsername(),
+                board.getCreatedAt());
     }
 }

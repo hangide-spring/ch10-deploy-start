@@ -22,7 +22,8 @@ public class BoardService {
 
     public List<BoardResponse> findAll() {
         log.info("게시글 목록 조회"); // INFO — 주요 처리 흐름
-        List<BoardResponse> result = boardRepository.findAll().stream().map(BoardResponse::from).toList();
+        List<BoardResponse> result = boardRepository.findAll().stream().map(board -> BoardResponse.from(board))
+                .toList();
         log.debug("조회 건수: {}", result.size()); // DEBUG — 기본 레벨(INFO)에서는 걸러진다
         return result;
     }

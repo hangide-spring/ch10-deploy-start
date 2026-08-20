@@ -28,9 +28,9 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // id는 DB의 auto_increment가 만든다
     private Integer id;
-    @Column(length = 100) // varchar(100) — 제목 컬럼 폭
+    @Column(length = 20) // varchar(20) — 제목 컬럼 폭
     private String title;
-    @Column(length = 500) // varchar(500) — 내용 컬럼 폭
+    @Column(length = 100) // varchar(100) — 내용 컬럼 폭
     private String content;
 
     @CreationTimestamp // insert 시점에 Hibernate가 시간을 자동으로 넣는다
@@ -60,7 +60,7 @@ public class Board {
     // 도메인 검증 — "이 글의 주인이 맞는가"는 데이터를 가진 엔티티가 스스로 지킨다
     // 서비스는 묻기만 하고, 판단 기준은 Board 안에 산다 (9차시: 서비스의 checkOwner를 도메인으로 이동)
     public void checkOwner(Integer userId) {
-        if (user == null || !user.getId().equals(userId)) {
+        if (!user.getId().equals(userId)) {
             throw new Exception403("작성자가 아닙니다");
         }
     }
