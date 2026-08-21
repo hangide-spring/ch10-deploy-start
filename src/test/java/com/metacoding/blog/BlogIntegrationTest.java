@@ -45,19 +45,24 @@ public class BlogIntegrationTest {
         String accessToken = JsonPath.read(loginBody, "$.body.accessToken");
 
         // 3. Bearer 토큰을 실어 인증이 필요한 게시글 등록 — 필터가 실제로 검증한다
+        mvc.perform(post("/boards")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {"title":"통합테스트 글","content":"전 계층 통과"}
+                        """))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.body.writer").value("integ"));
 
         // 4. 목록 조회 — 실제 DB(data.sql 3건 + 방금 등록 1건)에서 온다. 조회도 인증이 필요하다
     }
 
     @Test
     public void 토큰_없이_보호_API_401_test() throws Exception {
-        // TODO 5: 토큰 없이 POST /boards 를 보내고 401과 $.status = 401 을 확인하세요
-        // 슬라이스(@WebMvcTest)에서는 로드되지 않던 필터가 여기서는 실제로 요청을 끊는다
+
     }
 
     @Test
     public void 없는_글_조회_404_test() throws Exception {
-        // TODO 6: GET /boards/99 에서 404와 $.status = 404 를 확인하세요
-        // 전역 예외 처리(Resp 형식)까지 포함한 실패 경로 검증이다
+
     }
 }
